@@ -5,9 +5,10 @@ const Notes = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
     setToken(localStorage.getItem("token"));
-    fetchData();
+    fetchData(localStorage.getItem("token"));
   }, []);
-  const fetchData = async () => {
+
+  const fetchData = async (token) => {
     fetch("https://prickly-fish-pocketbook.cyclic.app/notes", {
       method: "GET",
       headers: {
@@ -21,12 +22,15 @@ const Notes = () => {
   };
   const deleteData = async (id) => {
     try {
-      const status = await fetch(`https://prickly-fish-pocketbook.cyclic.app/notes/delete/${id}`, {
-        Authorization: `Bearer ${token}`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const status = await fetch(
+        `https://prickly-fish-pocketbook.cyclic.app/notes/delete/${id}`,
+        {
+          Authorization: `Bearer ${token}`,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
     } catch (error) {
       console.log(error);
     }
